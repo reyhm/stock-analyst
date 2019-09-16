@@ -12,6 +12,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
 import { DetallesComponent } from './ingreso-egreso/detalles/detalles.component';
 import { EstadisticasComponent } from './ingreso-egreso/estadisticas/estadisticas.component';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EstadisticasComponent } from './ingreso-egreso/estadisticas/estadistica
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

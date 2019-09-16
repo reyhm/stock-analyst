@@ -12,7 +12,15 @@ import { RegisterComponent } from './auth/register/register.component';
 import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
 import { DetallesComponent } from './ingreso-egreso/detalles/detalles.component';
 import { EstadisticasComponent } from './ingreso-egreso/estadisticas/estadisticas.component';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+
+// Firebase
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
+// Environments
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,7 +38,12 @@ import { FormsModule } from '@angular/forms'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+
+    AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
+    AngularFireStorageModule,
+    AngularFireAuthModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

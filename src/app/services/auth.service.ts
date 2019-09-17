@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppStage } from '../app.reducer';
 import { LoadedUIAction, LoadingUIAction } from '../ngrx/actions/ui.action';
-import { SetUserAction } from '../ngrx/actions/auth.action';
+import { ClearDataUserAction, SetUserAction } from '../ngrx/actions/auth.action';
 import { Subscription } from 'rxjs';
 
 
@@ -132,6 +132,7 @@ export class AuthService {
     this.afAuth.auth.signOut()
       .then(resp => {
         this.router.navigate(['/login']);
+        this.store.dispatch( new ClearDataUserAction() );
       });
   }
 

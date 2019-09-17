@@ -20,6 +20,9 @@ export function authReducer(state = initState, action: fromAuth.actions): AuthSt
         user: { ... action.user }
       };
 
+    case fromAuth.CLEAR_DATA_USER:
+      return { user: null };
+
     default:
       return state;
 

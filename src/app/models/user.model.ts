@@ -4,12 +4,10 @@ export class User {
   name: string;
   email: string;
 
-  constructor(id: string, name: string, email: string) {
-
-    this.id = id;
-    this.name = name;
-    this.email = email;
-
+  constructor(user: any) {
+    this.id = user && user.id || null;
+    this.name = user && user.name || null;
+    this.email = user && user.email || null;
   }
 
 }

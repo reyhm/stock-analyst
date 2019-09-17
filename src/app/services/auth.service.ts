@@ -11,12 +11,15 @@ import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppStage } from '../app.reducer';
 import { LoadedUIAction, LoadingUIAction } from '../ngrx/actions/ui.action';
+import { SetUserAction } from '../ngrx/actions/auth.action';
+import { Subscription } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private subscription: Subscription = new Subscription();
 
   /**
    * Constructor
@@ -40,7 +43,17 @@ export class AuthService {
   initListener() {
     this.afAuth.auth
       .onAuthStateChanged((fbState: firebase.User) => {
-        console.log(fbState);
+        if (fbState) {
+          this.subscription = this.afDB.doc(`${fbState.uid}/users`)
+            .valueChanges()
+            .subscribe(userData => {
+              const user: User = new User(userData);
+              this.store.dispatch( new SetUserAction(user) );
+            });
+        } else {
+          this.subscription.unsubscribe();
+        }
+
       });
   }
 
@@ -118,7 +131,6 @@ export class AuthService {
   logOut() {
     this.afAuth.auth.signOut()
       .then(resp => {
-        console.log('signOut: true');
         this.router.navigate(['/login']);
       });
   }

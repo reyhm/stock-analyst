@@ -16,11 +16,11 @@ import { FormsModule } from '@angular/forms';
 
 // Firebase
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 // Environments
 import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { environment } from '../environments/environment';
     FormsModule,
 
     AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
-    AngularFireStorageModule,
+    AngularFirestoreModule,
     AngularFireAuthModule
 
   ],

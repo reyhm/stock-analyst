@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 import Swal from 'sweetalert2';
-import { User } from 'firebase';
 import { map } from 'rxjs/operators';
+import { User } from '../models/user.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  appId = 'skj876dsKJHBbw4';
 
   /**
    * Constructor
    *
    * @param afAuth
+   * @param afDB
    * @param router
    */
   constructor(
     private afAuth: AngularFireAuth,
+    private afDB: AngularFirestore,
     private router: Router
   ) {
   }
@@ -62,8 +67,17 @@ export class AuthService {
     this.afAuth.auth
       .createUserWithEmailAndPassword(email, pass)
       .then(resp => {
-        console.log(resp);
-        this.router.navigate(['/']);
+
+        const user: User = {
+          id: resp.user.uid, name, email
+        };
+
+        this.afDB.doc(`${this.appId}/users`)
+          .set(user)
+          .then(() => {
+            console.log(resp);
+            this.router.navigate(['/']);
+          });
       })
       .catch(err => {
         Swal.fire('Error try to register user', err.message, 'error');

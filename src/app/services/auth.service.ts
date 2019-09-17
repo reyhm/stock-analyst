@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 import Swal from 'sweetalert2';
+import { User } from 'firebase';
 
 
 @Injectable({
@@ -20,6 +22,16 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router
   ) {
+  }
+
+  /**
+   * Init Listener
+   */
+  initListener() {
+    this.afAuth.auth
+      .onAuthStateChanged((fbState: firebase.User) => {
+        console.log(fbState);
+    });
   }
 
   /**

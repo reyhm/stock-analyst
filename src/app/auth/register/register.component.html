@@ -51,7 +51,10 @@
 
             <div class="form-group">
 
-              <button [disabled]="f.invalid" class="btn btn-primary submit-btn btn-block">Crear cuenta</button>
+              <button [disabled]="f.invalid" class="btn btn-primary submit-btn btn-block">
+                <i *ngIf="loading" class="fa fa-spin fa-sync"></i>
+                {{(loading) ? 'Espere' : 'Crear cuenta'}}
+              </button>
 
             </div>
             <div class="text-block text-center my-3">

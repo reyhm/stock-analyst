@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase';
+import Swal from 'sweetalert2';
+import { User } from '../models/user.model';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase';
 
-import Swal from 'sweetalert2';
+import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { AppStage } from '../app.reducer';
+import { LoadedUIAction, LoadingUIAction } from '../ngrx/actions/ui.action';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  appId = 'skj876dsKJHBbw4';
 
   /**
    * Constructor
@@ -22,11 +24,13 @@ export class AuthService {
    * @param afAuth
    * @param afDB
    * @param router
+   * @param store
    */
   constructor(
     private afAuth: AngularFireAuth,
     private afDB: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private store: Store<AppStage>
   ) {
   }
 
@@ -37,7 +41,7 @@ export class AuthService {
     this.afAuth.auth
       .onAuthStateChanged((fbState: firebase.User) => {
         console.log(fbState);
-    });
+      });
   }
 
   /**
@@ -64,6 +68,8 @@ export class AuthService {
    * @param pass
    */
   registerUser(name: string, email: string, pass: string) {
+    this.store.dispatch(new LoadingUIAction());
+
     this.afAuth.auth
       .createUserWithEmailAndPassword(email, pass)
       .then(resp => {
@@ -72,16 +78,16 @@ export class AuthService {
           id: resp.user.uid, name, email
         };
 
-        this.afDB.doc(`${this.appId}/users`)
+        this.afDB.doc(`${user.id}/users`)
           .set(user)
           .then(() => {
-            console.log(resp);
             this.router.navigate(['/']);
+            this.store.dispatch(new LoadedUIAction());
           });
       })
       .catch(err => {
         Swal.fire('Error try to register user', err.message, 'error');
-        console.error(err);
+        this.store.dispatch(new LoadedUIAction());
       });
   }
 
@@ -92,15 +98,17 @@ export class AuthService {
    * @param pass
    */
   login(email: string, pass: string) {
+    this.store.dispatch(new LoadingUIAction());
+
     this.afAuth.auth
       .signInWithEmailAndPassword(email, pass)
       .then(resp => {
-        console.log('Auth: true');
         this.router.navigate(['/']);
+        this.store.dispatch(new LoadedUIAction());
       })
       .catch(err => {
         Swal.fire('Error try to register user', err.message, 'error');
-        console.log(err);
+        this.store.dispatch(new LoadedUIAction());
       });
   }
 

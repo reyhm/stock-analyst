@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 import Swal from 'sweetalert2';
 import { User } from 'firebase';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -32,6 +33,22 @@ export class AuthService {
       .onAuthStateChanged((fbState: firebase.User) => {
         console.log(fbState);
     });
+  }
+
+  /**
+   * Is auth
+   */
+  isAuth() {
+    return this.afAuth.authState
+      .pipe(
+        map(data => {
+          if (data == null) {
+            this.router.navigate(['/login']);
+          }
+
+          return data != null;
+        })
+      );
   }
 
   /**

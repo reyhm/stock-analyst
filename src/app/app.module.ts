@@ -12,7 +12,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
 import { DetallesComponent } from './ingreso-egreso/detalles/detalles.component';
 import { EstadisticasComponent } from './ingreso-egreso/estadisticas/estadisticas.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
@@ -44,6 +44,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
 
     AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
     AngularFirestoreModule,

@@ -1,3 +1,4 @@
+/* tslint:disable:no-trailing-whitespace */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -20,6 +21,7 @@ import { Subscription } from 'rxjs';
 })
 export class AuthService {
   private subscription: Subscription = new Subscription();
+  private user: User;
 
   /**
    * Constructor
@@ -47,14 +49,24 @@ export class AuthService {
           this.subscription = this.afDB.doc(`${fbState.uid}/users`)
             .valueChanges()
             .subscribe(userData => {
-              const user: User = new User(userData);
-              this.store.dispatch( new SetUserAction(user) );
+              this.user = new User(userData);
+
+              this.store.dispatch( new SetUserAction(this.user) );
             });
         } else {
+          this.user = null;
+
           this.subscription.unsubscribe();
         }
 
       });
+  }
+
+  /**
+   * Get user
+   */
+  getUser(): User {
+    return this.user;
   }
 
   /**

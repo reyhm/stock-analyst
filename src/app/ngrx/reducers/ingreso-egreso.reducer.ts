@@ -11,7 +11,7 @@ const initState: IngresoEgresoState = {
   items: []
 };
 
-export function IngresoEgresoReducer(state = initState, action: fromIE.actions) {
+export function IngresoEgresoReducer(state = initState, action: fromIE.actions): IngresoEgresoState {
 
   switch (action.type) {
 
@@ -25,7 +25,7 @@ export function IngresoEgresoReducer(state = initState, action: fromIE.actions) 
       };
 
     case fromIE.UNSET_ITEMS:
-      return [];
+      return { items: [] };
 
     default:
       return state;

@@ -8,11 +8,11 @@ import { ActionReducerMap } from '@ngrx/store';
 export interface AppStage {
   ui: fromUI.Stage;
   auth: fromAuth.AuthState;
-  ingresoEgreso: fromIE.IngresoEgresoState;
+  ingresoEgres: fromIE.IngresoEgresoState;
 }
 
 export const appReducers: ActionReducerMap<AppStage> = {
   ui: fromUI.UIReducer,
   auth: fromAuth.authReducer,
-  ingresoEgreso: fromIE.IngresoEgresoReducer
+  ingresoEgres: fromIE.IngresoEgresoReducer
 };

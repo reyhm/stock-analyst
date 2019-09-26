@@ -34,4 +34,18 @@ export class IngresoEgresoService {
       .add({...ingresoEgreso});
 
   }
+
+  /**
+   * Delete ingreso egreso
+   *
+   * @param id
+   */
+  deleteIngresoEgreso(itemId: string) {
+
+    const user = this.authService.getUser();
+
+    return this.dfDB.doc(`${user.id}/ingreso-egresos/items/${itemId}`)
+      .delete();
+
+  }
 }

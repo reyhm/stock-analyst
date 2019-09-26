@@ -26,6 +26,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 // Environments
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { OrderIngresoEgresoPipe } from './pipes/order-ingreso-egreso.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     RegisterComponent,
     IngresoEgresoComponent,
     DetallesComponent,
-    EstadisticasComponent
+    EstadisticasComponent,
+    OrderIngresoEgresoPipe
   ],
   imports: [
     BrowserModule,

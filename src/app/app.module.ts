@@ -23,6 +23,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
+// Graph
+import { ChartsModule } from 'ng2-charts';
+
 // Environments
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -51,6 +54,8 @@ import { OrderIngresoEgresoPipe } from './pipes/order-ingreso-egreso.pipe';
     AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
     AngularFirestoreModule,
     AngularFireAuthModule,
+
+    ChartsModule,
 
     StoreModule.forRoot( appReducers ),
     StoreDevtoolsModule.instrument({

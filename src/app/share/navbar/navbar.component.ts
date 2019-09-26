@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppStage } from '../../app.reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +11,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  authData: Observable<any>;
 
+  /**
+   * Constructor
+   *
+   * @param store
+   */
+  constructor(
+    private store: Store<AppStage>
+  ) {
+    this.authData = new Observable<any>();
+  }
+
+  /**
+   * OnInit
+   */
   ngOnInit() {
+    this.authData = this.store.select('auth')
+      .pipe(map(value => value.user));
   }
 
 }

@@ -30,7 +30,6 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
 
     AuthModule,
-    IngresoEgresoModule,
 
     AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
     AngularFirestoreModule,

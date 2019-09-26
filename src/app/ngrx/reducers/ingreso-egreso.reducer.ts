@@ -1,10 +1,15 @@
 /* tslint:disable:no-trailing-whitespace */
 import * as fromIE from '../actions/ingreso-egreso.action';
 import { IngresoEgreso } from '../../models/ingreso-egreso.model';
+import { AppStage } from '../../app.reducer';
 
 
 export interface IngresoEgresoState {
   items: IngresoEgreso[];
+}
+
+export interface IEState extends AppStage {
+  ingresoEgreso: IngresoEgresoState;
 }
 
 const initState: IngresoEgresoState = {

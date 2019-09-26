@@ -1,9 +1,10 @@
 /* tslint:disable:typedef-whitespace no-trailing-whitespace */
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppStage } from '../../app.reducer';
 import { IngresoEgreso } from '../../models/ingreso-egreso.model';
 import { Label, MultiDataSet } from 'ng2-charts';
+
+import { Store } from '@ngrx/store';
+import { IEState } from '../../ngrx/reducers/ingreso-egreso.reducer';
 
 @Component({
   selector: 'app-estadisticas',
@@ -12,8 +13,8 @@ import { Label, MultiDataSet } from 'ng2-charts';
 })
 export class EstadisticasComponent implements OnInit {
 
-  ingresos   : number;
-  egresos    : number;
+  ingresos  : number;
+  egresos   : number;
   qtyIngreso: number;
   qtyEgreso : number;
 
@@ -29,7 +30,7 @@ export class EstadisticasComponent implements OnInit {
    * @param store
    */
   constructor(
-    private store: Store<AppStage>
+    private store: Store<IEState>
   ) { }
 
   /**

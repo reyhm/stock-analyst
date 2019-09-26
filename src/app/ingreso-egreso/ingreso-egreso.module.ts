@@ -10,6 +10,8 @@ import { DashboardRoutingModule } from '../dashboard/dashboard-routing.module';
 
 import { OrderIngresoEgresoPipe } from '../pipes/order-ingreso-egreso.pipe';
 import { ShareModule } from '../share/share.module';
+import { StoreModule } from '@ngrx/store';
+import { IngresoEgresoReducer } from '../ngrx/reducers/ingreso-egreso.reducer';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { ShareModule } from '../share/share.module';
     ChartsModule,
     ReactiveFormsModule,
     ShareModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    StoreModule.forFeature('ingresoEgreso', IngresoEgresoReducer)
   ]
 })
 export class IngresoEgresoModule { }

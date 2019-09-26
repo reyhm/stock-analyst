@@ -6,15 +6,11 @@ import { take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate, CanLoad {
+export class AuthGuardService implements CanLoad {
 
   constructor(
     private authService: AuthService
   ) { }
-
-  canActivate() {
-    return this.authService.isAuth();
-  }
 
   canLoad() {
     return this.authService.isAuth()

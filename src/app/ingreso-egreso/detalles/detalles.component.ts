@@ -1,12 +1,13 @@
 /* tslint:disable:no-trailing-whitespace */
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppStage } from '../../app.reducer';
-import { Subscription } from 'rxjs';
 import { IngresoEgreso } from '../../models/ingreso-egreso.model';
-import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { IngresoEgresoService } from '../../services/ingreso-egreso.service';
+
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { IEState } from '../../ngrx/reducers/ingreso-egreso.reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detalles',
@@ -23,7 +24,7 @@ export class DetallesComponent implements OnInit {
    * @param store
    */
   constructor(
-    private store: Store<AppStage>,
+    private store: Store<IEState>,
     private ieService: IngresoEgresoService
   ) {
     this.subscription = new Subscription();

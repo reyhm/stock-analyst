@@ -3,59 +3,37 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { FooterComponent } from './share/footer/footer.component';
-import { SidebarComponent } from './share/sidebar/sidebar.component';
-import { NavbarComponent } from './share/navbar/navbar.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
-import { DetallesComponent } from './ingreso-egreso/detalles/detalles.component';
-import { EstadisticasComponent } from './ingreso-egreso/estadisticas/estadisticas.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Personalice modules
+import { AuthModule } from './auth/auth.module';
+import { IngresoEgresoModule } from './ingreso-egreso/ingreso-egreso.module';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
 import { appReducers } from './app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // Firebase
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-
-// Graph
-import { ChartsModule } from 'ng2-charts';
 
 // Environments
 import { environment } from '../environments/environment';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { OrderIngresoEgresoPipe } from './pipes/order-ingreso-egreso.pipe';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
-    FooterComponent,
-    SidebarComponent,
-    NavbarComponent,
-    LoginComponent,
-    RegisterComponent,
-    IngresoEgresoComponent,
-    DetallesComponent,
-    EstadisticasComponent,
-    OrderIngresoEgresoPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
+
+    AuthModule,
+    IngresoEgresoModule,
 
     AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
     AngularFirestoreModule,
-    AngularFireAuthModule,
-
-    ChartsModule,
 
     StoreModule.forRoot( appReducers ),
     StoreDevtoolsModule.instrument({

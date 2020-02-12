@@ -1,5 +1,5 @@
 {
-  "name": "ingreso-egreso-app",
+  "name": "stock-analyst",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

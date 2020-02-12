@@ -1,99 +1,71 @@
-<div class="row">
-  <div class="col-6">
-    <div class="card card-statistics">
-      <div class="card-body">
-
-        <div class="clearfix">
-          <div class="float-left">
-            <i class="fa fa-money-bill-alt text-success icon-lg"></i>
-          </div>
-          <div class="float-right">
-            <p class="mb-0 text-right">Ingresos</p>
-            <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0">{{ ingresos | currency }}</h3>
-            </div>
-          </div>
-        </div>
-        <p class="text-muted mt-3 mb-0">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> {{ qtyIngreso }} ingresos
-        </p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Enter Symbol</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter symbol"
+               (keyup.enter)="getData()"
+               (keyup)="symbol = symbol.toUpperCase()"
+               [(ngModel)]="symbol">
+        <small id="emailHelp" class="form-text text-muted">Stock market: {{data?.company}}</small>
       </div>
+      <button type="button" class="btn btn-primary" (click)="getData()">Check</button>
     </div>
   </div>
 
-  <div class="col-6">
-    <div class="card card-statistics">
-      <div class="card-body">
-
-        <div class="clearfix">
-          <div class="float-left">
-            <i class="fa fa-shipping-fast text-danger icon-lg"></i>
-          </div>
-          <div class="float-right">
-            <p class="mb-0 text-right">Egresos</p>
-            <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0">{{ egresos | currency }}</h3>
-            </div>
-          </div>
+  <div class="row mt-5">
+    <div class="col-6">
+      <div class="card" style="border: 1px solid #d9d9d9">
+        <div class="card-header">
+          Fundamental Analysis
         </div>
-        <p class="text-muted mt-3 mb-0">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> {{ qtyEgreso }} egresos
-        </p>
+        <ul class="list-group list-group-flush" *ngIf="data.hasOwnProperty('analisis')">
+          <ng-container *ngFor="let value of data.analisis | keys">
+            <li *ngIf="value !== 'bad'" class="list-group-item"
+            [ngClass]="{'bad-data':
+                (data.analisis.bad.includes('no_52')     && value == '52_Week_Change') ||
+                (data.analisis.bad.includes('more_debt') && value == 'Total_Debt')     ||
+                (data.analisis.bad.includes('low_float') && value == 'Float')          ||
+                ( data.analisis[value] > 5               && value == 'Stocks_Price')   ||
+                (data.analisis.bad.includes('short')     && value == 'Short_P_of_Float'),
+               'good-data':
+                (!data.analisis.bad.includes('no_52')     && value == '52_Week_Change') ||
+                (!data.analisis.bad.includes('more_debt') && value == 'Total_Debt')     ||
+                (!data.analisis.bad.includes('low_float') && value == 'Float')          ||
+                ( data.analisis[value] <= 5               && value == 'Stocks_Price')   ||
+                (!data.analisis.bad.includes('short')     && value == 'Short_P_of_Float')}">
+              <b *ngIf="value == 'Total_Debt' ||
+                        value == 'Float'      ||
+                        value == 'Short_P_of_Float'">** </b>
+              {{value | replace: '_': ' '}} ::
+              <b>{{data.analisis[value]}}
+              <span *ngIf="value == 'Market_Cap' ||
+                           value == 'Revenue' ||
+                           value == 'Total_Cash' ||
+                           value == 'Total_Debt' ||
+                           value == 'Float'"> M</span></b>
+            </li>
+          </ng-container>
+        </ul>
       </div>
     </div>
+
+    <div class="col-6">
+      <div class="card" style="border: 1px solid #d9d9d9">
+        <div class="card-header">
+          All Parameters
+        </div>
+        <ul class="list-group list-group-flush" *ngIf="data.hasOwnProperty('statistics')">
+          <ng-container *ngFor="let value of data.statistics | keys">
+            <li *ngIf="value !== 'bad'" class="list-group-item">
+              {{value | replace: '_': ' '}} ::
+              <b>{{data.statistics[value]}}</b>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<div class="row m-5">
-
-  <div class="col-12">
-    <div class="card card-statistics">
-      <div class="card-body">
-
-        <div class="clearfix">
-          <div class="float-left">
-            <i class="fa fa-building text-info icon-lg"></i>
-          </div>
-          <div class="float-right">
-            <p class="mb-0 text-right">Diferencia</p>
-            <div class="fluid-container">
-              <h3 [ngClass]="{
-                      'text-success': ingresos - egresos > 0,
-                      'text-danger': ingresos - egresos < 0
-                    }"
-                  class="font-weight-medium text-right mb-0">
-                {{ ingresos - egresos | currency }}
-              </h3>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 p-5" *ngIf="ingresos > 0 || egresos > 0">
-    <div class="card card-statistics">
-      <div class="card-body">
-        <h1 class="card-title">Gráfica</h1>
-
-        <!-- Graph -->
-        <div>
-          <div>
-            <div style="display: block">
-              <canvas baseChart
-                      [colors]="chartColors"
-                      [data]="doughnutChartData"
-                      [labels]="doughnutChartLabels"
-                      chartType="doughnut">
-              </canvas>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</div>

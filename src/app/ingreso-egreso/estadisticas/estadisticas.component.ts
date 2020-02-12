@@ -1,10 +1,10 @@
-/* tslint:disable:typedef-whitespace no-trailing-whitespace */
 import { Component, OnInit } from '@angular/core';
 import { IngresoEgreso } from '../../models/ingreso-egreso.model';
 import { Label, MultiDataSet } from 'ng2-charts';
 
 import { Store } from '@ngrx/store';
 import { IEState } from '../../ngrx/reducers/ingreso-egreso.reducer';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-estadisticas',
@@ -18,6 +18,9 @@ export class EstadisticasComponent implements OnInit {
   qtyIngreso: number;
   qtyEgreso : number;
 
+  symbol: string;
+  data: any;
+
   public doughnutChartLabels: Label[] = ['Ingresos', 'Egresos'];
   public chartColors: Array<any> = [
     { backgroundColor: ['#46a5d4', '#fe8081'] }
@@ -28,10 +31,14 @@ export class EstadisticasComponent implements OnInit {
    * Constructor
    *
    * @param store
+   * @param http
    */
   constructor(
-    private store: Store<IEState>
-  ) { }
+    private store: Store<IEState>,
+    private http: HttpClient
+  ) {
+    this.data = {};
+  }
 
   /**
    * OnInit
@@ -41,6 +48,21 @@ export class EstadisticasComponent implements OnInit {
       .subscribe(ingresosEgresos =>
         this.calIngresosEgresos(ingresosEgresos.items)
       );
+  }
+
+  /**
+   * Get data
+   */
+  getData() {
+    if (!this.symbol || this.symbol === '') {
+      return;
+    }
+
+    this.http.get(`https://hx53ygw2l4.execute-api.us-east-1.amazonaws.com/prod/test/${this.symbol}`)
+      .subscribe(data => {
+        console.log(data);
+        this.data = data;
+      });
   }
 
   /**

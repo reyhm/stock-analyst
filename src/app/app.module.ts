@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 
 // Personalice modules
 import { AuthModule } from './auth/auth.module';
-import { IngresoEgresoModule } from './ingreso-egreso/ingreso-egreso.module';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
@@ -34,7 +33,7 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebase, 'ingreso-egreso'),
     AngularFirestoreModule,
 
-    StoreModule.forRoot( appReducers ),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,                       // Retains last 25 states
       logOnly: environment.production,  // Restrict extension to log-only mode
